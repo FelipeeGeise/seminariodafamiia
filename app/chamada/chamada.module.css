@@ -1,0 +1,361 @@
+/*============================
+  VARIÁVEIS E BASE
+============================*/
+:root {
+  --primary-bg: #103333;
+  --secondary-bg: #191a1d;
+  --accent-cyan: #06f7f3;
+  --accent-blue: #3a6ea5;
+  --text-main: #f9fafb;
+  --text-dark: #1a2a40;
+  --danger: #f44336;
+  --success: #4caf50;
+  --white: #ffffff;
+}
+
+.container {
+  padding: 30px 20px;
+  max-width: 1000px;
+  margin: 20px auto;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background-color: var(--primary-bg);
+  min-height: 100vh;
+  border-radius: 16px;
+  color: var(--text-main);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/*============================
+  EVENTOS
+============================*/
+.eventos {
+  margin-bottom: 35px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.eventos h2 {
+  font-size: 1.5rem;
+  color: var(--accent-cyan);
+  margin-bottom: 5px;
+}
+
+.botoes {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.botaoEvento {
+  padding: 12px 24px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: var(--secondary-bg);
+  color: var(--text-main);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.botaoEvento:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-cyan);
+  box-shadow: 0 0 15px rgba(6, 247, 243, 0.3);
+}
+
+.selecionado {
+  background-color: var(--accent-blue);
+  border-color: var(--accent-cyan);
+  color: white;
+  box-shadow: 0 0 20px rgba(58, 110, 165, 0.5);
+}
+
+/*============================
+  INPUT DATA
+============================*/
+.inputData {
+  width: 100%;
+  max-width: 250px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background-color: var(--secondary-bg);
+  color: var(--text-main);
+  font-size: 16px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.inputData:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+  background-color: #25262b;
+  box-shadow: 0 0 0 3px rgba(6, 247, 243, 0.2);
+}
+
+.inputData[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  opacity: 0.7;
+  cursor: pointer;
+}
+
+/*============================
+  LISTA / ACORDEON
+============================*/
+.wrapperLista {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto 30px;
+}
+
+.headerAcordeon {
+  background: var(--secondary-bg) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--text-main);
+  transition: 0.3s;
+}
+
+.headerAcordeon:hover {
+  background: #25262b !important;
+}
+
+.corpoAcordeon {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 15px 0;
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/*============================
+  CARD DE PESSOA
+============================*/
+.card {
+  padding: 18px;
+  border-radius: 14px;
+  background: var(--white);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  border-left: 6px solid #ccc;
+}
+
+.card:hover {
+  transform: scale(1.01);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.info strong {
+  display: block;
+  font-size: 18px;
+  color: var(--text-dark);
+  margin-bottom: 4px;
+}
+
+.info p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+/*============================
+  BOTÕES DE CHECK (P / F)
+============================*/
+.checks {
+  display: flex;
+  gap: 8px;
+}
+
+.btnCheck {
+  width: 42px;
+  height: 42px;
+  border-radius: 8px;
+  border: 2px solid #e0e0e0;
+  background: #f9f9f9;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.ativoP {
+  background-color: var(--success) !important;
+  border-color: #388e3c !important;
+  color: white;
+}
+
+.ativoF {
+  background-color: var(--danger) !important;
+  border-color: #d32f2f !important;
+  color: white;
+}
+
+.card.presente { background-color: #e8f5e9; border-left-color: var(--success); }
+.card.faltou { background-color: #ffebee; border-left-color: var(--danger); }
+
+/*============================
+  BOTÕES DE AÇÃO
+============================*/
+.excluir {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.excluir:hover {
+  background: #fee2e2;
+}
+
+.buttonFinalizar {
+  display: block;
+  width: 100%;
+  max-width: 300px;
+  margin: 40px auto 0;
+  padding: 16px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--accent-blue), #1a2a40);
+  color: white;
+  font-weight: 700;
+  font-size: 17px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.buttonFinalizar:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(58, 110, 165, 0.4);
+  filter: brightness(1.1);
+}
+
+/*============================
+  MODAL (ATUALIZADO PARA CADASTRO)
+============================*/
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.modalContent {
+  background: var(--secondary-bg);
+  padding: 30px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-main);
+}
+
+.modalContent h2 {
+  margin-bottom: 20px;
+  color: var(--accent-cyan);
+  font-size: 1.4rem;
+}
+
+.inputSenha {
+  width: 100%;
+  padding: 14px;
+  margin: 20px 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: #25262b;
+  color: var(--text-main);
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.inputSenha:focus {
+  outline: none;
+  border-color: var(--accent-cyan);
+}
+
+.btnConfirmar {
+  background: var(--accent-blue);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: all 0.3s;
+}
+
+.btnConfirmar:hover {
+  filter: brightness(1.2);
+  transform: translateY(-2px);
+}
+
+.btnCancelar {
+  background: transparent;
+  color: #aaa;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: 1px solid #444;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btnCancelar:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--white);
+}
+
+/*============================
+  RESPONSIVO
+============================*/
+@media (max-width: 768px) {
+  .card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .checks {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .botoes {
+    gap: 8px;
+  }
+
+  .botaoEvento {
+    flex: 1 1 40%;
+    font-size: 14px;
+    padding: 10px;
+  }
+}

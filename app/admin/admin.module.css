@@ -1,0 +1,268 @@
+/* admin.module.css */
+
+.container {
+  padding: 40px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: #103333; /* Cor principal preservada */
+  color: #f9fafb;
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box; /* Garante que o padding não aumente a largura total */
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 32px;
+  color: #06f7f3; /* Ciano Neon preservado */
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+
+.description {
+  color: #a0aec0;
+  font-size: 16px;
+}
+
+/*============================
+  CARD DO FORMULÁRIO
+============================*/
+.formCard {
+  background: #191a1d; /* Fundo secundário preservado */
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(6, 247, 243, 0.1);
+  margin-bottom: 50px;
+  box-sizing: border-box;
+}
+
+.subtitle {
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #f9fafb;
+  border-left: 4px solid #3a6ea5;
+  padding-left: 15px;
+}
+
+/* TEXTAREA - CORREÇÃO DE LARGURA */
+.textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 15px;
+  background: #25262b;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 16px;
+  margin-bottom: 20px;
+  transition: 0.3s;
+  resize: vertical;
+  display: block;
+  box-sizing: border-box; /* ESSENCIAL: Impede que o textarea saia do card */
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #06f7f3;
+  box-shadow: 0 0 10px rgba(6, 247, 243, 0.2);
+}
+
+.uploadArea {
+  margin-bottom: 20px;
+}
+
+.label {
+  display: block;
+  font-size: 14px;
+  color: #a0aec0;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.input {
+  width: 100%;
+  color: #a0aec0;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+/* PREVIEW */
+.previewContainer {
+  margin: 20px 0;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.previewImage {
+  border-radius: 8px;
+  object-fit: cover;
+  max-width: 100%;
+  height: auto;
+  border: 2px solid #3a6ea5;
+}
+
+/* CUSTOMIZAÇÃO DE CORES */
+.customization {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 25px;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 10px;
+  flex-wrap: wrap; /* Melhora em telas menores */
+}
+
+.colorPicker {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.colorPicker input[type="color"] {
+  width: 45px;
+  height: 45px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background: none;
+}
+
+.colorPicker input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+.colorPicker input[type="color"]::-webkit-color-swatch { border-radius: 50%; border: 2px solid #fff; }
+
+/* BOTÃO ENVIAR */
+.btnSubmit {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(135deg, #3a6ea5, #1a2a40);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 18px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.btnSubmit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  filter: brightness(1.2);
+  box-shadow: 0 8px 20px rgba(58, 110, 165, 0.4);
+}
+
+.btnSubmit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/*============================
+  GRID DE AVISOS (LISTA)
+============================*/
+.listaSection {
+  margin-top: 20px;
+}
+
+.gridAvisos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.avisoItem {
+  padding: 20px;
+  border-radius: 15px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  overflow: hidden; /* Evita que bordas da imagem saiam do card */
+  word-wrap: break-word; /* Força quebra de texto longo */
+}
+
+.avisoItem:hover {
+  transform: scale(1.02);
+}
+
+.avisoTexto {
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin-bottom: 15px;
+}
+
+.avisoImg {
+  width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  object-fit: cover;
+}
+
+.avisoData {
+  font-size: 11px;
+  opacity: 0.8;
+  font-weight: 500;
+  margin-top: 10px;
+}
+
+/* BOTÃO EXCLUIR */
+.btnDelete {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 8px;
+  transition: 0.2s;
+  z-index: 10;
+}
+
+.btnDelete:hover {
+  background: #e53935;
+  color: white;
+  transform: rotate(10deg);
+}
+
+.emptyMsg {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 40px;
+  color: #a0aec0;
+  border: 2px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+}
+
+/*============================
+  RESPONSIVIDADE
+============================*/
+@media (max-width: 768px) {
+  .customization {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .title {
+    font-size: 24px;
+  }
+  
+  .gridAvisos {
+    grid-template-columns: 1fr;
+  }
+}

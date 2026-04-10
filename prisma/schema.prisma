@@ -1,0 +1,48 @@
+generator client {
+  provider   = "prisma-client-js"
+  
+}
+
+datasource db {
+  provider = "postgresql"
+  // A URL não é definida aqui para permitir que a lib/prisma.ts 
+  // gerencie a conexão via adapter-pg e evite erros de engine.
+}
+
+model Pessoa {
+  id               Int        @id @default(autoincrement())
+  nome             String
+  obreiro          String
+  lideranca        String
+  membro           Boolean    @default(true)
+  casalArticulador Boolean    @default(false)
+  congregacao      String
+  dataCadastro     DateTime   @default(now())
+  presencas        Presenca[]
+}
+
+model HistoricoChamada {
+  id        String     @id @default(uuid())
+  data      DateTime   @default(now())
+  evento    String
+  presencas Presenca[]
+}
+
+model Presenca {
+  id          Int              @id @default(autoincrement())
+  status      String           // "presente" | "faltou"
+  pessoa      Pessoa           @relation(fields: [pessoaId], references: [id], onDelete: Cascade)
+  pessoaId    Int
+  historico   HistoricoChamada @relation(fields: [historicoId], references: [id], onDelete: Cascade)
+  historicoId String
+}
+
+model Aviso {
+  id     String   @id @default(uuid())
+  texto  String
+  imagem String?  // Usamos String? porque a imagem é opcional no seu form
+  cor    String   @default("#000000")
+  bg     String   @default("#ffffff")
+  data   String   // A data formatada que você gera no front
+  createdAt DateTime @default(now())
+}

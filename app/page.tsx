@@ -1,65 +1,101 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
+// Definimos o tipo exatamente como o Prisma retorna
+type Aviso = {
+  id: string; // O Prisma gera ID, usamos aqui como key
+  texto: string;
+  imagem?: string;
+  cor: string;
+  bg: string;
+  data: string;
+};
+
 export default function Home() {
+  const [avisos, setAvisos] = useState<Aviso[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // --- BUSCAR DADOS DO BANCO (Substitui o localStorage) ---
+  useEffect(() => {
+    async function carregarAvisos() {
+      try {
+        const response = await fetch("/api/avisos");
+        if (response.ok) {
+          const dados = await response.json();
+          setAvisos(dados);
+        }
+      } catch (err) {
+        console.error("Erro ao carregar avisos na Home:", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    carregarAvisos();
+  }, []);
+
+  if (loading) {
+    return (
+      <div style={{ padding: 20, color: "#f9fafb", textAlign: "center" }}>
+        <p>Carregando avisos edificantes...</p>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <div style={{ padding: 20, maxWidth: "1000px", margin: "0 auto" }}>
+      <h1 style={{ color: "#06f7f3", textAlign: "center", marginBottom: 30 }}>
+        Bem-vindos à Equipe de Casais! <br />
+        <span style={{ fontSize: "0.6em", color: "#a0aec0" }}>
+          Juntos, edificando lares sobre a Rocha.
+        </span>
+      </h1>
+
+      {avisos.length === 0 ? (
+        <p style={{ marginTop: 20, color: "#a0aec0", textAlign: "center" }}>
+          Nenhum aviso disponível no momento.
+        </p>
+      ) : (
+        <div style={{ display: "grid", gap: "20px" }}>
+          {avisos.map((aviso) => (
+            <div
+              key={aviso.id} // Agora usamos o ID real do banco
+              style={{
+                padding: 20,
+                borderRadius: 12,
+                background: aviso.bg,
+                color: aviso.cor,
+                fontSize: 18,
+                boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+                border: "1px solid rgba(255,255,255,0.1)",
+                transition: "0.3s"
+              }}
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+              <p style={{ fontWeight: "600", marginBottom: 15, lineHeight: "1.5" }}>
+                {aviso.texto}
+              </p>
+              
+              {aviso.imagem && (
+                <div style={{ marginTop: 15, borderRadius: 8, overflow: "hidden" }}>
+                  <Image 
+                    src={aviso.imagem} 
+                    alt="Imagem do aviso" 
+                    width={800} 
+                    height={450} 
+                    style={{ width: "100%", height: "auto", display: "block" }}
+                  />
+                </div>
+              )}
+              
+              <div style={{ marginTop: 15, textAlign: "right", opacity: 0.8 }}>
+                <small style={{ fontSize: 12 }}>Publicado em: {aviso.data}</small>
+              </div>
+            </div>
+          ))}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+      )}
     </div>
   );
 }

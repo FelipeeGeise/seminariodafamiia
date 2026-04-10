@@ -1,0 +1,218 @@
+/* =========================
+   HEADER FIXO (TODAS TELAS)
+========================= */
+.header {
+  width: 100%;
+  height: 80px;
+  background: #103333;
+  color: white;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px 16px;
+  box-sizing: border-box;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  z-index: 1000;
+}
+
+/* espaço para não ficar escondido atrás do header */
+body {
+  padding-top: 80px;
+}
+
+/* =========================
+   LADO ESQUERDO (LOGO)
+========================= */
+.left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.left h1 {
+  font-size: 22px;
+  margin: 0;
+}
+
+/* =========================
+   MENU DESKTOP
+========================= */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-right: 50px;
+}
+
+/* links */
+.nav a,
+.link {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.nav a:hover,
+.link:hover {
+  color: #00bcd4;
+}
+
+.active {
+  color: #00bcd4;
+}
+
+/* =========================
+   HAMBURGUER
+========================= */
+.menuToggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+
+.menuToggle span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+/* =========================
+   MOBILE LOGO (MENU LATERAL)
+========================= */
+.mobileLogo {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.mobileLogo h1 {
+  font-size: 16px;
+  text-align: center;
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 768px) {
+
+  .header {
+    height: 70px;
+  }
+
+  body {
+    padding-top: 70px;
+  }
+
+  /* esconde imagem se tiver */
+  .left img {
+    display: none;
+  }
+
+  .left {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .left h1 {
+    font-size: 16px;
+    text-align: center;
+  }
+
+  /* MENU MOBILE */
+  .nav {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 75%;
+    height: 100vh;
+    background: #103333;
+
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+
+    margin: 0;
+    transition: 0.4s ease;
+    z-index: 1100;
+  }
+
+  .navOpen {
+    right: 0;
+  }
+
+  .mobileLogo {
+    display: flex;
+  }
+
+  .menuToggle {
+    display: flex;
+  }
+}
+
+/* =========================
+   OVERLAY (MENU MOBILE)
+========================= */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  backdrop-filter: blur(4px);
+  z-index: 999;
+}
+
+/* =========================
+   MODAL
+========================= */
+.modal {
+  background: white;
+  color: black;
+  padding: 20px;
+  border-radius: 12px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 260px;
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.modal button {
+  padding: 10px;
+  border: none;
+  background: #103333;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal button:hover {
+  background: #0d2a2a;
+}
