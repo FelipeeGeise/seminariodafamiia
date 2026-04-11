@@ -26,7 +26,7 @@ export default function Cadastro() {
 
   const handleCadastro = async () => {
     // SENHA DEFINIDA (Altere para a senha que desejar)
-    const SENHA_CORRETA = "seminariodecasal"; 
+    const SENHA_CORRETA = "seminario"; 
 
     if (senhaAdmin !== SENHA_CORRETA) {
       return alert("Senha administrativa incorreta!");
