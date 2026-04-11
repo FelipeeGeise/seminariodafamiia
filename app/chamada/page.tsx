@@ -11,8 +11,13 @@ export default function Chamadas() {
   const [data, setData] = useState("");
   const [listaAberta, setListaAberta] = useState(false);
 
+  // Estados para Modal de Exclusão
   const [modalAberto, setModalAberto] = useState(false);
   const [idParaExcluir, setIdParaExcluir] = useState<number | null>(null);
+  
+  // Estado para Modal de Finalização
+  const [modalFinalizarAberto, setModalFinalizarAberto] = useState(false);
+  
   const [senha, setSenha] = useState("");
   const SENHA_ADMIN = "seminariodecasal";
 
@@ -25,7 +30,7 @@ export default function Chamadas() {
           const dados = await response.json();
           setPessoas(dados);
         }
-      } catch (err) { // Alterado para 'err' e usado no console abaixo
+      } catch (err) {
         console.error("Erro ao carregar lista:", err);
       }
     }
@@ -43,6 +48,7 @@ export default function Chamadas() {
     }
   };
 
+  // --- LÓGICA DE EXCLUSÃO ---
   const abrirConfirmacao = (id: number) => {
     setIdParaExcluir(id);
     setModalAberto(true);
@@ -65,21 +71,24 @@ export default function Chamadas() {
           alert("Erro ao excluir registro.");
         }
       }
-      fecharModal();
+      fecharModais();
     } else {
       alert("Senha incorreta!");
     }
   };
 
-  const fecharModal = () => {
-    setModalAberto(false);
-    setIdParaExcluir(null);
-    setSenha("");
+  // --- LÓGICA DE FINALIZAÇÃO ---
+  const abrirFinalizacao = () => {
+    if (!evento || !data) return alert("Selecione evento e data!");
+    setModalFinalizarAberto(true);
   };
 
-  const finalizar = async () => {
-    if (!evento || !data) return alert("Selecione evento e data!");
-    
+  const executarFinalizacao = async () => {
+    if (senha !== SENHA_ADMIN) {
+      alert("Senha incorreta!");
+      return;
+    }
+
     const listaCompleta = pessoas.map(p => {
       const registro = presencas.find(pr => pr.pessoaId === p.id);
       return {
@@ -103,11 +112,19 @@ export default function Chamadas() {
       setEvento("");
       setData("");
       setListaAberta(false);
+      fecharModais();
       alert("Chamada finalizada com sucesso!");
     } catch (err) {
       console.error("Erro ao finalizar:", err);
       alert("Erro ao conectar com o banco de dados.");
     }
+  };
+
+  const fecharModais = () => {
+    setModalAberto(false);
+    setModalFinalizarAberto(false);
+    setIdParaExcluir(null);
+    setSenha("");
   };
 
   return (
@@ -125,7 +142,26 @@ export default function Chamadas() {
               className={styles.inputSenha} 
             />
             <button onClick={confirmarExclusao} className={styles.btnConfirmar}>Excluir</button>
-            <button onClick={fecharModal} className={styles.btnCancelar}>Cancelar</button>
+            <button onClick={fecharModais} className={styles.btnCancelar}>Cancelar</button>
+          </div>
+        </div>
+      )}
+
+      {/* MODAL DE FINALIZAR CHAMADA */}
+      {modalFinalizarAberto && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <h3>Confirmar Chamada</h3>
+            <p>Digite a senha para salvar a chamada de {evento}.</p>
+            <input 
+              type="password" 
+              value={senha} 
+              onChange={(e) => setSenha(e.target.value)} 
+              placeholder="Senha Admin" 
+              className={styles.inputSenha} 
+            />
+            <button onClick={executarFinalizacao} className={styles.btnConfirmar}>Confirmar</button>
+            <button onClick={fecharModais} className={styles.btnCancelar}>Cancelar</button>
           </div>
         </div>
       )}
@@ -160,7 +196,7 @@ export default function Chamadas() {
           style={{ 
             cursor: 'pointer', 
             padding: '15px', 
-            background: '#f4f4f4', 
+            background: 'var(--secondary-bg)', 
             borderRadius: '8px',
             display: 'flex',
             justifyContent: 'space-between',
@@ -205,7 +241,7 @@ export default function Chamadas() {
         )}
       </div>
 
-      <button className={styles.buttonFinalizar} onClick={finalizar}>
+      <button className={styles.buttonFinalizar} onClick={abrirFinalizacao}>
         Finalizar Chamada
       </button>
     </div>
