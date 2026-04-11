@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import type { Pessoa } from '@prisma/client';
 
 export async function GET() {
   try {
-    const pessoasBrutas = await prisma.pessoa.findMany({
+    const pessoasBrutas: Pessoa[] = await prisma.pessoa.findMany({
       orderBy: { nome: 'asc' }
     });
 
