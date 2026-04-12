@@ -1,8 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useApp, Pessoa } from "../context/AppContext";
+import { useApp } from "../context/AppContext";
 import styles from "./chamada.module.css";
+
+// DEFINIÇÃO DE TIPO PARA O VERCEL NÃO RECLAMAR
+interface Participante {
+  id: number;
+  nome: string;
+  obreiro?: string;
+  lideranca?: string;
+  congregacao?: string; // Adicionado aqui para o TS reconhecer no card
+}
 
 export default function Chamadas() {
   const { pessoas, setPessoas, presencas, setPresencas, carregarDados } = useApp();
@@ -19,7 +28,7 @@ export default function Chamadas() {
   const [modalFinalizarAberto, setModalFinalizarAberto] = useState(false);
   
   const [senha, setSenha] = useState("");
-  const SENHA_ADMIN = "seminariodecasal";
+  const SENHA_ADMIN = "seminario";
 
   // --- CARREGA OS PARTICIPANTES ---
   useEffect(() => {
@@ -63,7 +72,8 @@ export default function Chamadas() {
           });
           if (!response.ok) throw new Error("Falha na exclusão");
 
-          setPessoas(pessoas.filter(p => p.id !== idParaExcluir));
+          // CORREÇÃO: Usando a interface para o filtro de exclusão
+          setPessoas(pessoas.filter((p: Participante) => p.id !== idParaExcluir));
           setPresencas(presencas.filter(p => p.pessoaId !== idParaExcluir));
           alert("Excluído com sucesso!");
         } catch (err) {
@@ -89,7 +99,7 @@ export default function Chamadas() {
       return;
     }
 
-    const listaCompleta = pessoas.map(p => {
+    const listaCompleta = pessoas.map((p: Participante) => {
       const registro = presencas.find(pr => pr.pessoaId === p.id);
       return {
         pessoaId: p.id,
@@ -188,7 +198,6 @@ export default function Chamadas() {
         />
       </div>
 
-      {/* DIV ABRE E FECHA (ACCORDION) */}
       <div className={styles.wrapperLista}>
         <div 
           className={styles.headerAcordeon} 
@@ -211,12 +220,16 @@ export default function Chamadas() {
           <div className={styles.corpoAcordeon}>
             {pessoas.length === 0 && <p style={{textAlign: 'center'}}>Nenhum cadastro encontrado.</p>}
             
-            {pessoas.map((p: Pessoa) => {
+            {pessoas.map((p: Participante) => { 
               const status = presencas.find(pr => pr.pessoaId === p.id)?.status;
               return (
                 <div key={p.id} className={`${styles.card} ${status ? styles[status] : ""}`}>
                   <div className={styles.info}>
                     <strong>{p.nome}</strong>
+                    {/* EXIBINDO A CONGREGAÇÃO NO CARD */}
+                    <p style={{ color: "#06f7f3", fontWeight: "bold", fontSize: "0.85em", margin: "4px 0" }}>
+                       {p.congregacao || "Sede"}
+                    </p>
                     <p>{p.obreiro || "Membro"} | {p.lideranca || "Sem Função"}</p>
                   </div>
                   <div className={styles.checks}>
