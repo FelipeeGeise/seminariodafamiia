@@ -85,7 +85,8 @@ export default function Cadastro() {
           <option>Evangelista</option>
           <option>Presbítero</option>
           <option>Diácono</option>
-          <option>Auxiliar de Trabalho</option>
+          <option>Auxiliar Oficial</option>
+          <option>Auxiliar Local</option>
           <option>Cooperador</option>
         </select>
 
