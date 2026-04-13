@@ -6,38 +6,29 @@
   height: 80px;
   background: #103333;
   color: white;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
-
-  padding: 10px 16px;
+  padding: 0 24px;
   box-sizing: border-box;
-
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-
   z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* espaço para não ficar escondido atrás do header */
-body {
-  padding-top: 80px;
-}
-
-/* =========================
-   LADO ESQUERDO (LOGO)
-========================= */
 .left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .left h1 {
-  font-size: 22px;
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: -0.5px;
   margin: 0;
 }
 
@@ -47,27 +38,41 @@ body {
 .nav {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-right: 50px;
+  gap: 20px;
 }
 
-/* links */
-.nav a,
-.link {
-  color: white;
+.nav a, .link {
+  color: rgba(255, 255, 255, 0.85);
   text-decoration: none;
-  font-size: 18px;
+  font-size: 16px;
+  font-weight: 500;
   cursor: pointer;
-  transition: 0.3s;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
 }
 
-.nav a:hover,
-.link:hover {
-  color: #00bcd4;
+.nav a:hover, .link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .active {
-  color: #00bcd4;
+  color: #00bcd4 !important;
+  font-weight: 700;
+}
+
+.badge {
+  background: #ff4444;
+  color: white;
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  font-weight: 800;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 /* =========================
@@ -76,143 +81,237 @@ body {
 .menuToggle {
   display: none;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
   cursor: pointer;
+  padding: 10px;
 }
 
 .menuToggle span {
-  width: 25px;
+  width: 28px;
   height: 3px;
   background: white;
-  border-radius: 2px;
+  border-radius: 4px;
   transition: 0.3s;
 }
 
 /* =========================
-   MOBILE LOGO (MENU LATERAL)
+   MODAL & OVERLAY
 ========================= */
-.mobileLogo {
-  display: none;
-  flex-direction: column;
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  justify-content: center;
   align-items: center;
-  gap: 10px;
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  padding: 20px;
 }
 
-.mobileLogo h1 {
-  font-size: 16px;
+.modal {
+  background: #ffffff;
+  color: #333;
+  padding: 0;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  max-height: 90vh;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  animation: modalPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.modalLargo {
+  max-width: 500px;
+}
+
+/* =========================
+   SISTEMA DE TABS
+========================= */
+.tabs {
+  display: flex;
+  background: #f8f9fa;
+  padding: 10px 10px 0 10px;
+  gap: 5px;
+}
+
+.tabs button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+  background: transparent;
+  color: #666;
+  border-radius: 10px 10px 0 0;
+}
+
+.tabActive {
+  background: #fff !important;
+  color: #103333 !important;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.05);
+}
+
+/* =========================
+   FORMULÁRIO (CONTEÚDO ROLÁVEL)
+========================= */
+.formNiver {
+  padding: 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.formNiver h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  color: #103333;
   text-align: center;
+}
+
+.formNiver label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  gap: 6px;
+}
+
+.formNiver input, .formNiver select {
+  padding: 12px;
+  border: 1.5px solid #eee;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: 0.2s;
+  background: #fdfdfd;
+}
+
+/* MELHORIA: ESPAÇO DA SENHA (Login de controle) */
+.loginAcesso {
+  text-align: center;
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  align-items: center;
+}
+
+.loginAcesso p {
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.loginAcesso input {
+  width: 100%;
+  max-width: 280px;
+  text-align: center;
+  letter-spacing: 4px;
+  font-weight: bold;
+}
+
+.divisor {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 10px 0;
+}
+
+/* =========================
+   BOTÕES GERAIS
+========================= */
+.btnSalvar {
+  background: #28a745 !important;
+  color: white;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 16px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+}
+
+.btnFechar {
+  background: #e9ecef !important;
+  color: #666 !important;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 10px 20px 20px 20px;
+}
+
+/* =========================
+   LISTA DE CARDS
+========================= */
+.listaParabens {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.cardNiver {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 16px;
+  border-radius: 12px;
+  color: white;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.rosa { background: linear-gradient(135deg, #ff7eb9, #ff1168); }
+.azul { background: linear-gradient(135deg, #4facfe, #00f2fe); }
+.dourado { 
+  background: linear-gradient(135deg, #f6d365, #fda085); 
+  border: 2px solid #eebb00;
+  color: #443300 !important;
 }
 
 /* =========================
    MOBILE
 ========================= */
 @media (max-width: 768px) {
+  .header { padding: 0 16px; height: 70px; }
+  .left h1 { font-size: 15px; }
 
-  .header {
-    height: 70px;
-  }
-
-  body {
-    padding-top: 70px;
-  }
-
-  /* esconde imagem se tiver */
-  .left img {
-    display: none;
-  }
-
-  .left {
-    justify-content: center;
-    width: 100%;
-  }
-
-  .left h1 {
-    font-size: 16px;
-    text-align: center;
-  }
-
-  /* MENU MOBILE */
   .nav {
     position: fixed;
     top: 0;
     right: -100%;
-    width: 75%;
+    width: 80%;
     height: 100vh;
     background: #103333;
-
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 25px;
-
-    margin: 0;
-    transition: 0.4s ease;
-    z-index: 1100;
+    padding-top: 100px;
+    gap: 15px;
+    transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
-  .navOpen {
-    right: 0;
+  .navOpen { right: 0; }
+  .menuToggle { display: flex; }
+
+  .modal {
+    width: 100%;
+    max-height: 85vh;
   }
-
-  .mobileLogo {
-    display: flex;
-  }
-
-  .menuToggle {
-    display: flex;
-  }
-}
-
-/* =========================
-   OVERLAY (MENU MOBILE)
-========================= */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  backdrop-filter: blur(4px);
-  z-index: 999;
-}
-
-/* =========================
-   MODAL
-========================= */
-.modal {
-  background: white;
-  color: black;
-  padding: 20px;
-  border-radius: 12px;
-
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 260px;
-
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-
-.input {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-  outline: none;
-}
-
-.modal button {
-  padding: 10px;
-  border: none;
-  background: #103333;
-  color: white;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.modal button:hover {
-  background: #0d2a2a;
 }
