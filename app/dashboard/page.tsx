@@ -135,13 +135,14 @@ export default function Dashboard() {
 
           <select className={styles.input} value={filtroLideranca} onChange={e => setFiltroLideranca(e.target.value)}>
             <option value="">Todas as Lideranças</option>
-            <option>Direção de Comissão</option>
+            <option>Responsável da congregação</option>
+            <option>Direção do Circulo de Oração </option>
             <option>Direção de Proati</option>
             <option>Direção de Campanha Evangelizadora</option>
             <option>Direção de Conjunto Musical</option>
             <option>Direção de Vocal</option>
             <option>Direção de União</option>
-            <option>Direção do COI</option>
+            <option>Direção do Circulo de Oração Infantil</option>
             <option>Direção de Grupo Jovem</option>
           </select>
 

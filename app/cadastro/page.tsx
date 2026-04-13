@@ -93,13 +93,14 @@ export default function Cadastro() {
         <label className={styles.label}>Liderança</label>
         <select className={styles.select} value={lideranca} onChange={(e) => setLideranca(e.target.value)}>
           <option value="">Selecione</option>
-          <option>Direção de Comissão</option>
+          <option>Responsável da congregação</option>
+          <option>Direção do Circulo de Oração </option>
           <option>Direção de Proati</option>
           <option>Direção de Campanha Evangelizadora</option>
           <option>Direção de Conjunto Musical</option>
           <option>Direção de Vocal</option>
           <option>Direção de União</option>
-          <option>Direção do COI</option>
+          <option>Direção do Circulo de Oração Infantil</option>
           <option>Direção de Grupo Jovem</option>
         </select>
 
