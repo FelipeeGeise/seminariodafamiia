@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma"; 
 
-// SALVAR NOVO ANIVERSÁRIO
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -13,16 +12,17 @@ export async function POST(request: Request) {
         nomeConjuge: body.nomeConjuge || null,
         dataNascConjuge: body.dataNascConjuge || null,
         dataCasamento: body.dataCasamento || null,
+        fotoUrl: body.fotoUrl || null,
+        fotoConjugeUrl: body.fotoUrlConjuge || null, // Alinhado com o frontend
+        fotoCasamentoUrl: body.fotoUrlCasamento || null, // Alinhado com o frontend
       },
     });
     return NextResponse.json(novoNiver);
-  } catch {
-    console.error("Erro ao salvar dados no Prisma");
-    return NextResponse.json({ error: "Erro ao salvar dados" }, { status: 500 });
+  } catch { // <--- SEM (error) AQUI
+    return NextResponse.json({ error: "Erro ao salvar" }, { status: 500 });
   }
 }
 
-// BUSCAR ANIVERSARIANTES DE HOJE
 export async function GET() {
   try {
     const hoje = new Date();
@@ -31,40 +31,39 @@ export async function GET() {
     const dataRef = `-${mesHoje}-${diaHoje}`;
 
     const todos = await prisma.aniversario.findMany();
-
     const aniversariantes = [];
 
     for (const p of todos) {
       // 1. Aniversário do Titular
-      if (p.dataNascimento.includes(dataRef)) {
+      if (p.dataNascimento?.includes(dataRef)) {
         aniversariantes.push({ 
           nome: p.nome, 
-          tipo: p.genero as "homem" | "mulher",
-          dataOriginal: p.dataNascimento // Enviando a data para o cálculo de idade
+          tipo: p.genero, 
+          dataOriginal: p.dataNascimento, 
+          fotoUrl: p.fotoUrl 
         });
       }
-      
       // 2. Aniversário do Cônjuge
-      if (p.dataNascConjuge && p.dataNascConjuge.includes(dataRef)) {
+      if (p.dataNascConjuge?.includes(dataRef)) {
         aniversariantes.push({ 
-          nome: p.nomeConjuge as string, 
-          tipo: p.genero === "homem" ? "mulher" : "homem",
-          dataOriginal: p.dataNascConjuge // Enviando a data para o cálculo de idade
+          nome: p.nomeConjuge, 
+          tipo: p.genero === "homem" ? "mulher" : "homem", 
+          dataOriginal: p.dataNascConjuge, 
+          fotoUrl: p.fotoConjugeUrl 
         });
       }
-      
       // 3. Aniversário de Casamento
-      if (p.dataCasamento && p.dataCasamento.includes(dataRef)) {
+      if (p.dataCasamento?.includes(dataRef)) {
         aniversariantes.push({ 
           nome: `${p.nome} & ${p.nomeConjuge}`, 
-          tipo: "casamento" as const,
-          dataOriginal: p.dataCasamento // Enviando a data para o cálculo de anos de casado
+          tipo: "casamento", 
+          dataOriginal: p.dataCasamento, 
+          fotoUrl: p.fotoCasamentoUrl 
         });
       }
     }
-
     return NextResponse.json(aniversariantes);
-  } catch {
-    return NextResponse.json({ error: "Erro ao buscar dados" }, { status: 500 });
+  } catch { // <--- SEM (error) AQUI TAMBÉM
+    return NextResponse.json({ error: "Erro ao buscar" }, { status: 500 });
   }
 }

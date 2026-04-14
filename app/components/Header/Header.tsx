@@ -4,12 +4,13 @@ import Link from "next/link";
 import styles from "./header.module.css";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, ChangeEvent } from "react";
 
 interface Aniversariante {
   nome: string;
   tipo: "homem" | "mulher" | "casamento";
   dataOriginal?: string;
+  fotoUrl?: string; // Mantido para suportar a imagem no mapeamento
 }
 
 export default function Header() {
@@ -35,6 +36,26 @@ export default function Header() {
   const [nomeConjuge, setNomeConjuge] = useState("");
   const [dataNascConjuge, setDataNascConjuge] = useState("");
   const [dataCasamento, setDataCasamento] = useState("");
+  
+  // ESTADOS PARA AS TRÊS FOTOS DIFERENTES
+  const [fotoUrl, setFotoUrl] = useState(""); 
+  const [fotoUrlConjuge, setFotoUrlConjuge] = useState("");
+  const [fotoUrlCasamento, setFotoUrlCasamento] = useState("");
+
+  // FUNÇÕES PARA PEGAR FOTOS DO DISPOSITIVO
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>, tipo: "titular" | "conjuge" | "casamento") => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result as string;
+        if (tipo === "titular") setFotoUrl(base64);
+        if (tipo === "conjuge") setFotoUrlConjuge(base64);
+        if (tipo === "casamento") setFotoUrlCasamento(base64);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const calcularAnos = (dataString?: string) => {
     if (!dataString) return "";
@@ -70,7 +91,7 @@ export default function Header() {
   const abrirModalNiver = () => {
     setNiverOpen(true);
     setMenuOpen(false);
-    setAcessoCadastrado(false); // Reseta o acesso ao fechar/abrir
+    setAcessoCadastrado(false);
     setSenhaCadastro("");
     buscarAniversariantes();
   };
@@ -88,7 +109,17 @@ export default function Header() {
       return alert("Por favor, preencha ao menos o seu nome e data de nascimento.");
     }
 
-    const payload = { nome, dataNascimento: dataNasc, genero, nomeConjuge, dataNascConjuge, dataCasamento };
+    const payload = { 
+      nome, 
+      dataNascimento: dataNasc, 
+      genero, 
+      nomeConjuge, 
+      dataNascConjuge, 
+      dataCasamento,
+      fotoUrl,           // Foto do titular
+      fotoUrlConjuge,    // Foto do cônjuge
+      fotoUrlCasamento   // Foto do casal/casamento
+    };
 
     try {
       const res = await fetch("/api/aniversariantes", {
@@ -100,6 +131,7 @@ export default function Header() {
       if (res.ok) {
         alert("Dados salvos com sucesso!");
         setNome(""); setDataNasc(""); setNomeConjuge(""); setDataNascConjuge(""); setDataCasamento("");
+        setFotoUrl(""); setFotoUrlConjuge(""); setFotoUrlCasamento("");
         setAbaNiver("parabens");
         setAcessoCadastrado(false);
         buscarAniversariantes();
@@ -122,7 +154,7 @@ export default function Header() {
     <>
       <header className={styles.header}>
         <div className={styles.left}>
-          <Image src="/ieadpe-a36.png" alt="a36" width={70} height={50} />
+          <Image src="/ieadpe-a36.png" alt="a36" width={70} height={50} priority />
           <h1>Seminário da Família da Área 36</h1>
         </div>
 
@@ -157,7 +189,6 @@ export default function Header() {
 
             {abaNiver === "cadastrar" ? (
               !acessoCadastrado ? (
-                /* DIV DE PROTEÇÃO POR SENHA */
                 <div className={styles.formNiver} style={{ textAlign: "center", padding: "40px 20px" }}>
                   <h3>Acesso Restrito</h3>
                   <p>Digite a senha para cadastrar:</p>
@@ -171,9 +202,13 @@ export default function Header() {
                   <button type="button" onClick={verificarSenhaCadastro} className={styles.btnSalvar}>Liberar Acesso</button>
                 </div>
               ) : (
-                /* FORMULÁRIO LIBERADO */
                 <div className={styles.formNiver}>
                   <h3>Cadastrar Datas Especiais</h3>
+                  
+                  <label>Sua Foto: 
+                    <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, "titular")} style={{ marginTop: "5px" }} />
+                  </label>
+
                   <label>Nome: <input type="text" value={nome} onChange={(e) => setNome(e.target.value)} /></label>
                   <label>Nascimento: <input type="date" value={dataNasc} onChange={(e) => setDataNasc(e.target.value)} /></label>
                   <label>Gênero: 
@@ -183,9 +218,17 @@ export default function Header() {
                     </select>
                   </label>
                   <hr className={styles.divisor} />
+                  
+                  <label>Foto do Cônjuge: 
+                    <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, "conjuge")} style={{ marginTop: "5px" }} />
+                  </label>
                   <label>Cônjuge: <input type="text" value={nomeConjuge} onChange={(e) => setNomeConjuge(e.target.value)} /></label>
                   <label>Nascimento Cônjuge: <input type="date" value={dataNascConjuge} onChange={(e) => setDataNascConjuge(e.target.value)} /></label>
                   <hr className={styles.divisor} />
+
+                  <label>Foto do Casal: 
+                    <input type="file" accept="image/*" onChange={(e) => handleFileChange(e, "casamento")} style={{ marginTop: "5px" }} />
+                  </label>
                   <label>Data de Casamento: <input type="date" value={dataCasamento} onChange={(e) => setDataCasamento(e.target.value)} /></label>
                   <button type="button" onClick={handleSalvar} className={styles.btnSalvar}>Salvar Datas</button>
                 </div>
@@ -197,7 +240,22 @@ export default function Header() {
                     const anos = calcularAnos(niver.dataOriginal);
                     return (
                       <div key={index} className={`${styles.cardNiver} ${niver.tipo === "mulher" ? styles.rosa : niver.tipo === "homem" ? styles.azul : styles.dourado}`}>
-                        <span>🎂</span>
+                        
+                        <div className={styles.fotoContainer}>
+                          {niver.fotoUrl ? (
+                            <Image 
+                              src={niver.fotoUrl} 
+                              alt={niver.nome} 
+                              width={50} 
+                              height={50} 
+                              className={styles.fotoMini} 
+                              unoptimized 
+                            />
+                          ) : (
+                            <span>{niver.tipo === "casamento" ? "💍" : "🎂"}</span>
+                          )}
+                        </div>
+
                         <p>
                           {niver.tipo === "casamento" 
                             ? `Feliz Aniversário de Casamento! Parabéns ${niver.nome} pelos seus ${anos} anos de união!` 

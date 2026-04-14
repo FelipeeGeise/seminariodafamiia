@@ -141,7 +141,7 @@ export default function Dashboard() {
             <option>Direção de Campanha Evangelizadora</option>
             <option>Direção de Conjunto Musical</option>
             <option>Direção de Vocal</option>
-            <option>Direção de União</option>
+            <option>Direção de União de adolescentes</option>
             <option>Direção do Circulo de Oração Infantil</option>
             <option>Direção de Grupo Jovem</option>
           </select>

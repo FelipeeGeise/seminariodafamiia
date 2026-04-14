@@ -52,5 +52,8 @@ model Aniversario {
   nomeConjuge      String?
   dataNascConjuge  String?
   dataCasamento    String?
+  fotoUrl          String?// Foto do Titular
+  fotoConjugeUrl   String? // Foto do Cônjuge
+  fotoCasamentoUrl String? // Foto do Casal
   createdAt        DateTime @default(now())
 }
