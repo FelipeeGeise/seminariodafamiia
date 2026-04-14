@@ -14,15 +14,16 @@
 }
 
 .container {
-  padding: 30px 20px;
+  padding: 100px 20px 30px; /* 👈 CORREÇÃO PRINCIPAL */
   max-width: 1000px;
-  margin: 20px auto;
+  margin: 0 auto; /* 👈 remove conflito com topo */
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   background-color: var(--primary-bg);
   min-height: 100vh;
   border-radius: 16px;
   color: var(--text-main);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box; /* 👈 evita bug mobile */
 }
 
 /*============================
@@ -76,9 +77,7 @@
   box-shadow: 0 0 20px rgba(58, 110, 165, 0.5);
 }
 
-/*============================
-  INPUT DATA
-============================*/
+/* INPUT DATA */
 .inputData {
   width: 100%;
   max-width: 250px;
@@ -87,7 +86,6 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   background-color: var(--secondary-bg);
   color: var(--text-main);
-  
   font-size: 16px;
   font-weight: 500;
   transition: all 0.3s ease;
@@ -101,48 +99,14 @@
   box-shadow: 0 0 0 3px rgba(6, 247, 243, 0.2);
 }
 
-.inputData[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
-  opacity: 0.7;
-  cursor: pointer;
-}
-
-/*============================
-  LISTA / ACORDEON
-============================*/
+/* LISTA */
 .wrapperLista {
   width: 100%;
   max-width: 800px;
   margin: 0 auto 30px;
 }
 
-.headerAcordeon {
-  background: var(--secondary-bg) !important;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  color: var(--text-main);
-  transition: 0.3s;
-}
-
-.headerAcordeon:hover {
-  background: #25262b !important;
-}
-
-.corpoAcordeon {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  padding: 15px 0;
-  animation: fadeIn 0.4s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/*============================
-  CARD DE PESSOA
-============================*/
+/* CARD */
 .card {
   padding: 18px;
   border-radius: 14px;
@@ -159,25 +123,20 @@
 
 .card:hover {
   transform: scale(1.01);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
 }
 
 .info strong {
   display: block;
   font-size: 18px;
   color: var(--text-dark);
-  margin-bottom: 4px;
 }
 
 .info p {
   font-size: 14px;
   color: #666;
-  margin: 0;
 }
 
-/*============================
-  BOTÕES DE CHECK (P / F)
-============================*/
+/* CHECKS */
 .checks {
   display: flex;
   gap: 8px;
@@ -191,44 +150,9 @@
   background: #f9f9f9;
   font-weight: bold;
   cursor: pointer;
-  transition: 0.2s;
 }
 
-.ativoP {
-  background-color: var(--success) !important;
-  border-color: #388e3c !important;
-  color: white;
-}
-
-.ativoF {
-  background-color: var(--danger) !important;
-  border-color: #d32f2f !important;
-  color: white;
-}
-
-.card.presente { background-color: #e8f5e9; border-left-color: var(--success); }
-.card.faltou { background-color: #ffebee; border-left-color: var(--danger); }
-
-/*============================
-  BOTÕES DE AÇÃO
-============================*/
-.excluir {
-  background: none;
-  border: none;
-  font-size: 1.2rem;
-  cursor: pointer;
-  padding: 8px;
-  border-radius: 50%;
-  transition: background 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.excluir:hover {
-  background: #fee2e2;
-}
-
+/* BOTÃO FINAL */
 .buttonFinalizar {
   display: block;
   width: 100%;
@@ -241,32 +165,18 @@
   color: white;
   font-weight: 700;
   font-size: 17px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
   cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
-.buttonFinalizar:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(58, 110, 165, 0.4);
-  filter: brightness(1.1);
-}
-
-/*============================
-  MODAL (ATUALIZADO PARA CADASTRO)
-============================*/
+/* MODAL */
 .modalOverlay {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.85);
-  backdrop-filter: blur(8px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  padding: 20px;
 }
 
 .modalContent {
@@ -276,87 +186,46 @@
   width: 100%;
   max-width: 400px;
   text-align: center;
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-main);
-}
-
-.modalContent h2 {
-  margin-bottom: 20px;
-  color: var(--accent-cyan);
-  font-size: 1.4rem;
-}
-
-.inputSenha {
-  width: 100%;
-  padding: 14px;
-  margin: 20px 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
-  background: #25262b;
-  color: var(--text-main);
-  font-size: 16px;
-  transition: border-color 0.3s;
-}
-
-.inputSenha:focus {
-  outline: none;
-  border-color: var(--accent-cyan);
-}
-
-.btnConfirmar {
-  background: var(--accent-blue);
-  color: white;
-  padding: 12px 24px;
-  border-radius: 10px;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: all 0.3s;
-}
-
-.btnConfirmar:hover {
-  filter: brightness(1.2);
-  transform: translateY(-2px);
-}
-
-.btnCancelar {
-  background: transparent;
-  color: #aaa;
-  padding: 12px 24px;
-  border-radius: 10px;
-  border: 1px solid #444;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.btnCancelar:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: var(--white);
 }
 
 /*============================
   RESPONSIVO
 ============================*/
+
+/* Tablet */
 @media (max-width: 768px) {
+  .container {
+    padding-top: 110px; /* 👈 ajuste fino */
+  }
+
   .card {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .checks {
     width: 100%;
     justify-content: space-between;
   }
 
-  .botoes {
-    gap: 8px;
-  }
-
   .botaoEvento {
     flex: 1 1 40%;
     font-size: 14px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .container {
+    padding: 120px 10px 20px; /* 👈 CORREÇÃO MOBILE */
+  }
+
+  .botaoEvento {
+    font-size: 13px;
     padding: 10px;
+  }
+
+  .buttonFinalizar {
+    width: 100%;
   }
 }
