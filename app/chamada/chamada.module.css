@@ -106,6 +106,13 @@
   margin: 0 auto 30px;
 }
 
+/* 👇 CORREÇÃO: separação dos cards */
+.corpoAcordeon {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 /* CARD */
 .card {
   padding: 18px;
@@ -136,6 +143,17 @@
   color: #666;
 }
 
+/* 👇 STATUS DO CARD (PRESENÇA / FALTA) */
+.presente {
+  border-left: 6px solid var(--success);
+  background: #eaffea;
+}
+
+.faltou {
+  border-left: 6px solid var(--danger);
+  background: #ffecec;
+}
+
 /* CHECKS */
 .checks {
   display: flex;
@@ -150,6 +168,24 @@
   background: #f9f9f9;
   font-weight: bold;
   cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+/* 👇 BOTÕES ATIVOS (P e F) */
+.ativoP {
+  background: var(--success);
+  color: white;
+  border-color: var(--success);
+}
+
+.ativoF {
+  background: var(--danger);
+  color: white;
+  border-color: var(--danger);
+}
+
+.btnCheck:hover {
+  transform: scale(1.05);
 }
 
 /* BOTÃO FINAL */
@@ -195,7 +231,7 @@
 /* Tablet */
 @media (max-width: 768px) {
   .container {
-    padding-top: 110px; /* 👈 ajuste fino */
+    padding-top: 110px;
   }
 
   .card {
@@ -217,7 +253,7 @@
 /* Mobile */
 @media (max-width: 480px) {
   .container {
-    padding: 120px 10px 20px; /* 👈 CORREÇÃO MOBILE */
+    padding: 120px 10px 20px;
   }
 
   .botaoEvento {
