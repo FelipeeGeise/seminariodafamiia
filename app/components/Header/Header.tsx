@@ -154,7 +154,7 @@ export default function Header() {
     <>
       <header className={styles.header}>
         <div className={styles.left}>
-          <Image src="/ieadpe-a36.png" alt="a36" width={70} height={50} priority />
+          <Image src="/ieadpeazul.png" alt="a36" width={70} height={50} priority />
           <h1>Seminário da Família da Área 36</h1>
         </div>
 
